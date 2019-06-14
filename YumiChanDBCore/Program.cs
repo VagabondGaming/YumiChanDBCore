@@ -9,7 +9,7 @@ namespace YumiChanDBCore
         {
             Console.Title = "Yumi-chan Discord";
 
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("Hiya Discord!");
         }
     }
 }
