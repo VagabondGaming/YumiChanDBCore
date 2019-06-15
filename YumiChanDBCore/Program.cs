@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace YumiChanDBCore
 {
-    internal class Program
+    internal static class Program
     {
         private static void Main()
         {
-            Console.Title = "Yumi-chan Discord";
+            Unity.RegisterTypes();
 
             Console.WriteLine("Hiya Discord!");
         }
