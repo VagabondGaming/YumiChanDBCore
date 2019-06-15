@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Unity;
 using Unity.Resolution;
+using Unity.Lifetime;
 using YumiChanDBCore.Storage;
 using YumiChanDBCore.Storage.Implementations;
 
@@ -28,7 +29,7 @@ namespace YumiChanDBCore
         public static void RegisterTypes()
         {
             _container = new UnityContainer();
-            _container.RegisterType<IDataStorage, InMemoryStorage>();
+            _container.RegisterType<IDataStorage, InMemoryStorage>(new ContainerControlledLifetimeManager());
         }
 
         public static T Resolve<T>()
