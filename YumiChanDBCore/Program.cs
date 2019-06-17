@@ -1,26 +1,24 @@
 ﻿using System;
-using System.Threading.Tasks;
 using YumiChanDBCore.Discord;
 using YumiChanDBCore.Discord.Entities;
-using YumiChanDBCore.Storage;
 
 namespace YumiChanDBCore
 {
     internal static class Program
     {
-        private static async Task Main()
+        private static void Main()
         {
             Unity.RegisterTypes();
 
             Console.WriteLine("Hiya Discord!");
 
-            var storage = Unity.Resolve<IDataStorage>();
-            var connection = Unity.Resolve<Connection>();
-
-            await connection.ConnectAsync(new YumiChanBotConfig()
+            var discordBotConfig = new YumiChanBotConfig()
             {
-                Token = storage.RestoreObject<string>("Config/BotToken")
-            });
+                Token = "ABC",
+                SocketConfig = SocketConfig.GetDefault()
+            };
+
+            var connection = Unity.Resolve<Connection>();
 
             Console.ReadKey();
         }

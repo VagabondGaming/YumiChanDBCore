@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 using Unity;
-using Unity.Injection;
 using Unity.Resolution;
 using Unity.Lifetime;
 using YumiChanDBCore.Storage;
 using YumiChanDBCore.Storage.Implementations;
-using Discord.WebSocket;
-using YumiChanDBCore.Discord;
 
 namespace YumiChanDBCore
 {
@@ -32,12 +29,9 @@ namespace YumiChanDBCore
         public static void RegisterTypes()
         {
             _container = new UnityContainer();
-
-            _container.RegisterSingleton<IDataStorage, JsonStorage>();
-            _container.RegisterSingleton<ILogger, Logger>();
-            _container.RegisterType<DiscordSocketConfig>(new InjectionFactory(i => SocketConfig.GetDefault()));
-            _container.RegisterSingleton<DiscordSocketClient>(new InjectionConstructor(typeof(DiscordSocketConfig)));
-            _container.RegisterSingleton<Discord.Connection>();
+            _container.RegisterType<IDataStorage, InMemoryStorage>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<ILogger, Logger>(new ContainerControlledLifetimeManager());
+            _container.RegisterType<Discord.Connection>(new ContainerControlledLifetimeManager());
         }
 
         public static T Resolve<T>()
