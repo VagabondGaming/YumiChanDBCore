@@ -6,6 +6,9 @@ using Unity.Resolution;
 using Unity.Lifetime;
 using YumiChanDBCore.Storage;
 using YumiChanDBCore.Storage.Implementations;
+using Discord.WebSocket;
+using Unity.Injection;
+using YumiChanDBCore.Discord;
 
 namespace YumiChanDBCore
 {
@@ -29,9 +32,12 @@ namespace YumiChanDBCore
         public static void RegisterTypes()
         {
             _container = new UnityContainer();
-            _container.RegisterType<IDataStorage, InMemoryStorage>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<ILogger, Logger>(new ContainerControlledLifetimeManager());
-            _container.RegisterType<Discord.Connection>(new ContainerControlledLifetimeManager());
+
+            _container.RegisterSingleton<IDataStorage, InMemoryStorage>();
+            _container.RegisterSingleton<ILogger, Logger>();
+            _container.RegisterType<DiscordSocketConfig>(new InjectionFactory(i => SocketConfig.GetDefault()));
+            _container.RegisterSingleton<DiscordSocketClient>(new InjectionConstructor(typeof(DiscordSocketConfig)));
+            _container.RegisterSingleton<Discord.Connection>();
         }
 
         public static T Resolve<T>()
